@@ -16,8 +16,8 @@ class AuthenticationMixin:
             mfa_token = activation.mfa_token
             signup_date = activation.created_at
 
-            if not mfa_token and signup_date + timedelta(days=config.MIN_MFA_DAY_ALLOW) <= now():
-                return HttpResponseRedirect(reverse("accounts:set_mfa"))
+            # if not mfa_token and signup_date + timedelta(days=config.MIN_MFA_DAY_ALLOW) <= now():
+            #     return HttpResponseRedirect(reverse("accounts:set_mfa"))
 
         except Activation.DoesNotExist:
             return HttpResponseRedirect(reverse("accounts:set_mfa"))

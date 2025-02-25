@@ -13,3 +13,4 @@ sqlparse==0.4.1
 django-formtools==2.5.1
 django-crontab
 django-paypal==2.1
+kvm

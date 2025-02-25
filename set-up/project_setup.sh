@@ -18,6 +18,7 @@ startwebapp_path="$project_path/startwebapp.sh"
 sudo apt-get update
 
 #download anaconda
+sudo apt install curl
 curl https://repo.anaconda.com/archive/Anaconda3-2021.05-Linux-x86_64.sh --output anaconda.sh
 bash anaconda.sh
 export PATH="$HOME/anaconda3/bin:$PATH"

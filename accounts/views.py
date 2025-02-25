@@ -291,12 +291,12 @@ class SetMfaView(LoginRequiredMixin, TemplateView):
         context = super().get_context_data(**kwargs)
         user_data = Activation.get_activation_data_for_user(user=self.request.user)
 
-        if not user_data['mfa_token'] and user_data['created_at'] + timedelta(days=config.MIN_MFA_DAY_ALLOW) <= now():
-            messages.warning(
-                self.request,
-                "Please enable Multi-Factor Authentication (MFA) for added security.",
-                extra_tags="warning"
-            )
+        # if not user_data['mfa_token'] and user_data['created_at'] + timedelta(days=config.MIN_MFA_DAY_ALLOW) <= now():
+        #     messages.warning(
+        #         self.request,
+        #         "Please enable Multi-Factor Authentication (MFA) for added security.",
+        #         extra_tags="warning"
+        #     )
         if not user_data['mfa_token']:
             secret_key = pyotp.random_base32()
             otp = pyotp.TOTP(secret_key)
