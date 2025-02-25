@@ -1,0 +1,15 @@
+asgiref==3.3.4
+beautifulsoup4==4.9.3
+certifi==2021.5.30
+cryptlex.lexactivator==3.14.10
+Django==4.2.8
+django-bootstrap4==1.1.1
+psutil==5.8.0
+pytz==2021.1
+PyYAML==5.4.1
+soupsieve==2.2.1
+pandas
+sqlparse==0.4.1
+django-formtools==2.5.1
+django-crontab
+django-paypal==2.1

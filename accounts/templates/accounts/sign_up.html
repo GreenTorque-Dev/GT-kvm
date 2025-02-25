@@ -1,0 +1,40 @@
+{% extends 'layouts/default/simple.html' %}
+
+{% load bootstrap4 %}
+{% load i18n %}
+
+{% block content %}
+
+<form role="form text-left" method="post">
+    {% csrf_token %}
+
+    {{ form.non_field_errors }}
+
+    {% for hidden_field in form.hidden_fields %}
+        {{ hidden_field.errors }}
+        {{ hidden_field }}
+    {% endfor %}
+
+    {% for field in form.visible_fields %}
+        <!-- Display the label and input for each field -->
+        {% if field.label == "Email" %}
+            <label>Email</label>
+        {% elif field.label == "Password" %}
+            <label>Password</label>
+        {% elif field.label == "Confirm Password" %}
+            <label>Confirm Password</label>
+        {% else %}
+            <label>{{ field.label }}</label>
+        {% endif %}
+        <div class="mb-3">
+            <input type="{{ field.field.widget.input_type }}" name="{{ field.name }}" class="form-control" placeholder="{{ field.label }}">
+            {{ field.errors }}
+        </div>
+    {% endfor %}
+
+    <div class="text-center">
+        <button id="signup" class="btn bg-gradient-dark w-100 my-4 mb-2">Sign Up</button>
+    </div>
+</form>
+
+{% endblock %}

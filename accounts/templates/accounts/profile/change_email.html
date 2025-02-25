@@ -1,0 +1,27 @@
+{% extends 'layouts/default/dashboard_header_footer.html' %}
+
+{% load bootstrap4 %}
+{% load i18n %}
+
+{% block content %}
+	<div class="row" style="padding-left: 160px; padding-right: 160px;">
+		<div xmlns="http://www.w3.org/1999/html">
+			 <h1 style="font-size:20px; color: #82d616;">{% trans 'Change Email' %}</h1><hr>
+			{% if messages %}
+			{% for message in messages %}
+				<div class="alert alert-{{ message.tags }}">{{ message }}</div>
+			{% endfor %}
+		{% endif %}
+			<form method="post">
+				<div class="card">
+					<div class="card-body">
+
+						{% csrf_token %}
+						{% bootstrap_form form %}
+						<button type="button" class="btn btn-success">{% trans 'Change' %}</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+{% endblock %}

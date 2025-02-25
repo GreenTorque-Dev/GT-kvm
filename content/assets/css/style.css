@@ -1,0 +1,27 @@
+.circle-label {
+        width: 17px;
+        height: 17px;
+        border-radius: 50%;
+        border: none;
+        display: inline-block;
+        padding: 0;
+        line-height: 20px; /* Center text vertically if any */
+        text-align: center; /* Center text horizontally if any */
+    }
+    .hr-line {
+        border: 1px solid #e0e0e0;
+        margin: 1rem 0;
+    }
+    .summary {
+        margin-top: 21px;
+    }
+    .status{
+        margin-left: 7px;
+        margin-bottom: 7px;
+    }
+    .error{
+        color:red !important;
+    }
+     .form-control.error {
+        border-color: red;
+    }

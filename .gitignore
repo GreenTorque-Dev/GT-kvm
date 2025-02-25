@@ -2,6 +2,7 @@
 .idea
 __pycache__
 db.sqlite3
+haproxy.cfg
 backup
+blocklists.ips
 .DS_Store
-content/static

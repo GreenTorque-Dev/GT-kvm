@@ -1,0 +1,55 @@
+{% extends 'layouts/default/base.html' %}
+
+{% load bootstrap4 %}
+{% load i18n %}
+
+{% block content %}
+
+
+ <form role="form text-left" method="post">
+
+                  {% csrf_token %}
+
+              {{ form.non_field_errors }}
+
+              {% for hidden_field in form.hidden_fields %}
+                {{ hidden_field.errors }}-
+                {{ hidden_field }}
+              {% endfor %}
+
+                  {% for field in form.visible_fields %}
+                  <!-- <label >{{field.label}}</label> -->
+                  {% if field.label == "Email or Username" %}
+                  <label>Username</label>
+              {% elif field.label == "Password" %}
+                  <label>Password</label>
+              {% else %}
+                  <!-- Handle other fields as needed -->
+                  <label>{{ field.label }}</label>
+              {% endif %}
+                  <div class="mb-3">
+
+                    <!-- <input type="{{field.field.widget.input_type}}" name="{{field.name}}" class="form-control" placeholder="{{field.label}}"> -->
+                    {% if field.label == "Email or Username" %}
+                    <input type="{{ field.field.widget.input_type }}" name="{{ field.name }}" class="form-control" placeholder="Username">
+                {% elif field.label == "Password" %}
+                    <input type="{{ field.field.widget.input_type }}" name="{{ field.name }}" class="form-control" placeholder="Password">
+                {% else %}
+                    <!-- Handle other fields as needed -->
+                    <input type="{{ field.field.widget.input_type }}" name="{{ field.name }}" class="form-control" placeholder="{{ field.label }}">
+                {% endif %}
+                    {{field.errors}}
+                  </div>
+                  {% endfor %}
+
+                  <div class="text-center">
+                    <button id="login" class="btn bg-gradient-dark w-100 my-4 mb-2">Sign in</button>
+                      <a id="sign-up" class="w-100 my-4 mb-2" href="{% url 'accounts:sign_up' %}">Sign Up</a>
+                  <!--  <button id="login" class=" p-1.5 rounded focus:outline-none font-semibold" style="border:1px solid green; color: green; button:hover:background-color:">
+          Login
+        </button> -->
+                  </div>
+                </form>
+
+  
+{% endblock %}
