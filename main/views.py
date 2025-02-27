@@ -34,3 +34,4 @@ class IndexPageView(AuthenticationMixin, TemplateView):
             })
         context['hypervisors'] = hypervisors
         return context
+# test
