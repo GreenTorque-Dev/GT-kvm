@@ -137,7 +137,7 @@
 <script>
     function startHypervisor(domainName) {
         fetch(`/start/${domainName}/`, {
-            method: "GET",
+            method: "POST",
             headers: {
                 "X-Requested-With": "XMLHttpRequest",
                 "X-CSRFToken": "{{ csrf_token }}"
