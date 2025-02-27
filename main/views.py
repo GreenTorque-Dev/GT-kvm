@@ -39,6 +39,7 @@ def start_hypervisor(request,domain_name):
     return JsonResponse(data)
 
 def stop_hypervisor(request,domain_name):
+    print(f"Received request to stop: {domain_name}")
     data = {}
     try:
         if request.user.is_authenticated:
@@ -57,6 +58,8 @@ def stop_hypervisor(request,domain_name):
         data["response"] = 0
         data["error"] = str(e)
         error_message = f"An error occurred while stopping {domain_name}: {str(e)}"
+    return JsonResponse(data)
+
 def restart_hypervisor(request, domain_name):
     print(f"Received request to restart: {domain_name}")
     data = {}
