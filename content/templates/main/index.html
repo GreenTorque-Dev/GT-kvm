@@ -48,9 +48,10 @@
                     <td>{{ hypervisor.state }}</td>
                     <td>
 
-            <button onclick="start_hypervisor('{{ hypervisor.name }}')" class="btn btn-success">Start</button>
-                        <button onclick="stop_hypervisor('{{ hypervisor.name }}')" class="btn btn-danger">Stop</button>
-            <button onclick="restart_hypervisor('{{ hypervisor.name }}')" class="btn btn-warning">Restart</button>
+           <button data-domain="{{ hypervisor.name }}" data-action="start" onclick="start_hypervisor('{{ hypervisor.name }}')" class="btn btn-success">Start</button>
+<button data-domain="{{ hypervisor.name }}" data-action="stop" onclick="stop_hypervisor('{{ hypervisor.name }}')" class="btn btn-danger">Stop</button>
+<button data-domain="{{ hypervisor.name }}" data-action="restart" onclick="restart_hypervisor('{{ hypervisor.name }}')" class="btn btn-warning">Restart</button>
+
                     </td>
                 </tr>
                 {% empty %}
