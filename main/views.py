@@ -23,9 +23,11 @@ def start_hypervisor(request,domain_name):
         if request.user.is_authenticated:
             manager= KVMManager()
             domain= manager.get_domain(domain_name)
+
             if domain:
                 domain.start()
                 data['response'] = 1
+                data['new_status'] = 'Running'
                 data['message'] = f'{domain_name} started successfully'
             else:
 
@@ -45,6 +47,7 @@ def stop_hypervisor(request,domain_name):
         if request.user.is_authenticated:
             manager= KVMManager()
             domain = manager.get_domain(domain_name)
+
             if domain:
                 domain.stop()
                 data['response'] = 1
