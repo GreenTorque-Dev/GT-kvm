@@ -9,6 +9,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('accounts.urls')),
     path("start/<str:domain_name>/", start_hypervisor, name="start_hypervisor"),
+    path('stop/<str:domain_name>/', stop_hypervisor, name='stop_hypervisor'),
+    path('restart/<str:domain_name>/', restart_hypervisor, name='restart_hypervisor'),
 
     path('', login_success, name='index'),
     path('index/', IndexPageView.as_view(), name='dashboard'),

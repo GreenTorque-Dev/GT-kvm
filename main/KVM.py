@@ -96,4 +96,5 @@ if __name__ == "__main__":
         print(f"State of {domain_name}:", domain.get_state())
         print("hypervisor started")
         domain.start()
+
         print(f"Config of {domain_name}:\n", domain.get_config())

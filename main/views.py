@@ -38,6 +38,47 @@ def start_hypervisor(request,domain_name):
 
     return JsonResponse(data)
 
+def stop_hypervisor(request,domain_name):
+    data = {}
+    try:
+        if request.user.is_authenticated:
+            manager= KVMManager()
+            domain = manager.get_domain(domain_name)
+            if domain:
+                domain.stop()
+                data['response'] = 1
+                data['message'] = f'{domain_name} stopped successfully'
+            else:
+
+                data['response'] = 0
+                data['error'] = "Hypervisor not found"
+
+    except Exception as e:
+        data["response"] = 0
+        data["error"] = str(e)
+        error_message = f"An error occurred while stopping {domain_name}: {str(e)}"
+def restart_hypervisor(request, domain_name):
+    print(f"Received request to restart: {domain_name}")
+    data = {}
+    try:
+        if request.user.is_authenticated:
+            manager = KVMManager()
+            domain = manager.get_domain(domain_name)
+            if domain:
+                domain.stop()  # First, stop the domain
+                domain.start()  # Then, start it again
+                data['response'] = 1
+                data['message'] = f'{domain_name} restarted successfully'
+            else:
+                data['response'] = 0
+                data['error'] = "Hypervisor not found"
+    except Exception as e:
+        data["response"] = 0
+        data["error"] = str(e)
+
+    return JsonResponse(data)
+
+
 
 
 class IndexPageView(AuthenticationMixin, TemplateView):

@@ -49,6 +49,8 @@
                     <td>
 
             <button onclick="start_hypervisor('{{ hypervisor.name }}')" class="btn btn-success">Start</button>
+                        <button onclick="stop_hypervisor('{{ hypervisor.name }}')" class="btn btn-danger">Stop</button>
+            <button onclick="restart_hypervisor('{{ hypervisor.name }}')" class="btn btn-warning">Restart</button>
                     </td>
                 </tr>
                 {% empty %}
@@ -137,6 +139,45 @@
 <script>
     function start_hypervisor(domainName) {
         fetch(`/start/${domainName}/`, {
+            method: "POST",
+            headers: {
+                "X-Requested-With": "XMLHttpRequest",
+                "X-CSRFToken": "{{ csrf_token }}"
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.response === 1) {
+                alert(data.message);
+                location.reload(); // Refresh the page to update status
+            } else {
+                alert("Error: " + data.error);
+            }
+        })
+        .catch(error => console.error("Error:", error));
+    }
+    function stop_hypervisor(domainName) {
+        fetch(`/stop/${domainName}/`, {
+            method: "POST",
+            headers: {
+                "X-Requested-With": "XMLHttpRequest",
+                "X-CSRFToken": "{{ csrf_token }}"
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.response === 1) {
+                alert(data.message);
+                location.reload(); // Refresh the page to update status
+            } else {
+                alert("Error: " + data.error);
+            }
+        })
+        .catch(error => console.error("Error:", error));
+    }
+
+    function restart_hypervisor(domainName) {
+        fetch(`/restart/${domainName}/`, {
             method: "POST",
             headers: {
                 "X-Requested-With": "XMLHttpRequest",
