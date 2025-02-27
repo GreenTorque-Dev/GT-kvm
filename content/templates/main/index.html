@@ -137,64 +137,142 @@
     });
 </script>
 <script>
-    function start_hypervisor(domainName) {
-        fetch(`/start/${domainName}/`, {
-            method: "POST",
-            headers: {
-                "X-Requested-With": "XMLHttpRequest",
-                "X-CSRFToken": "{{ csrf_token }}"
-            }
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.response === 1) {
-                alert(data.message);
-                location.reload(); // Refresh the page to update status
-            } else {
-                alert("Error: " + data.error);
-            }
-        })
-        .catch(error => console.error("Error:", error));
-    }
-    function stop_hypervisor(domainName) {
-        fetch(`/stop/${domainName}/`, {
-            method: "POST",
-            headers: {
-                "X-Requested-With": "XMLHttpRequest",
-                "X-CSRFToken": "{{ csrf_token }}"
-            }
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.response === 1) {
-                alert(data.message);
-                location.reload(); // Refresh the page to update status
-            } else {
-                alert("Error: " + data.error);
-            }
-        })
-        .catch(error => console.error("Error:", error));
-    }
+<!--    function start_hypervisor(domainName) {-->
+<!--        fetch(`/start/${domainName}/`, {-->
+<!--            method: "POST",-->
+<!--            headers: {-->
+<!--                "X-Requested-With": "XMLHttpRequest",-->
+<!--                "X-CSRFToken": "{{ csrf_token }}"-->
+<!--            }-->
+<!--        })-->
+<!--        .then(response => response.json())-->
+<!--        .then(data => {-->
+<!--            if (data.response === 1) {-->
+<!--                alert(data.message);-->
+<!--                location.reload(); // Refresh the page to update status-->
+<!--            } else {-->
+<!--                alert("Error: " + data.error);-->
+<!--            }-->
+<!--        })-->
+<!--        .catch(error => console.error("Error:", error));-->
+<!--    }-->
+<!--    function stop_hypervisor(domainName) {-->
+<!--        fetch(`/stop/${domainName}/`, {-->
+<!--            method: "POST",-->
+<!--            headers: {-->
+<!--                "X-Requested-With": "XMLHttpRequest",-->
+<!--                "X-CSRFToken": "{{ csrf_token }}"-->
+<!--            }-->
+<!--        })-->
+<!--        .then(response => response.json())-->
+<!--        .then(data => {-->
+<!--            if (data.response === 1) {-->
+<!--                alert(data.message);-->
+<!--                location.reload(); // Refresh the page to update status-->
+<!--            } else {-->
+<!--                alert("Error: " + data.error);-->
+<!--            }-->
+<!--        })-->
+<!--        .catch(error => console.error("Error:", error));-->
+<!--    }-->
 
-    function restart_hypervisor(domainName) {
-        fetch(`/restart/${domainName}/`, {
-            method: "POST",
-            headers: {
-                "X-Requested-With": "XMLHttpRequest",
-                "X-CSRFToken": "{{ csrf_token }}"
+<!--    function restart_hypervisor(domainName) {-->
+<!--        fetch(`/restart/${domainName}/`, {-->
+<!--            method: "POST",-->
+<!--            headers: {-->
+<!--                "X-Requested-With": "XMLHttpRequest",-->
+<!--                "X-CSRFToken": "{{ csrf_token }}"-->
+<!--            }-->
+<!--        })-->
+<!--        .then(response => response.json())-->
+<!--        .then(data => {-->
+<!--            if (data.response === 1) {-->
+<!--                alert(data.message);-->
+<!--                location.reload(); // Refresh the page to update status-->
+<!--            } else {-->
+<!--                alert("Error: " + data.error);-->
+<!--            }-->
+<!--        })-->
+<!--        .catch(error => console.error("Error:", error));-->
+<!--    }-->
+    function start_hypervisor(domainName) {
+    fetch(`/start/${domainName}/`, {
+        method: "POST",
+        headers: {
+            "X-Requested-With": "XMLHttpRequest",
+            "X-CSRFToken": "{{ csrf_token }}"
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.response === 1) {
+            alert(data.message);
+            let button = document.querySelector(`button[data-domain="${domainName}"][data-action="start"]`);
+            if (button) {
+                button.textContent = "Started";
+                button.classList.remove("btn-success");
+                button.classList.add("btn-secondary");
+                button.disabled = true; // Disable the button after action
             }
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.response === 1) {
-                alert(data.message);
-                location.reload(); // Refresh the page to update status
-            } else {
-                alert("Error: " + data.error);
+        } else {
+            alert("Error: " + data.error);
+        }
+    })
+    .catch(error => console.error("Error:", error));
+}
+
+function stop_hypervisor(domainName) {
+    fetch(`/stop/${domainName}/`, {
+        method: "POST",
+        headers: {
+            "X-Requested-With": "XMLHttpRequest",
+            "X-CSRFToken": "{{ csrf_token }}"
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.response === 1) {
+            alert(data.message);
+            let button = document.querySelector(`button[data-domain="${domainName}"][data-action="stop"]`);
+            if (button) {
+                button.textContent = "Stopped";
+                button.classList.remove("btn-danger");
+                button.classList.add("btn-secondary");
+                button.disabled = true;
             }
-        })
-        .catch(error => console.error("Error:", error));
-    }
+        } else {
+            alert("Error: " + data.error);
+        }
+    })
+    .catch(error => console.error("Error:", error));
+}
+
+function restart_hypervisor(domainName) {
+    fetch(`/restart/${domainName}/`, {
+        method: "POST",
+        headers: {
+            "X-Requested-With": "XMLHttpRequest",
+            "X-CSRFToken": "{{ csrf_token }}"
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.response === 1) {
+            alert(data.message);
+            let button = document.querySelector(`button[data-domain="${domainName}"][data-action="restart"]`);
+            if (button) {
+                button.textContent = "Restarted";
+                button.classList.remove("btn-warning");
+                button.classList.add("btn-secondary");
+                button.disabled = true;
+            }
+        } else {
+            alert("Error: " + data.error);
+        }
+    })
+    .catch(error => console.error("Error:", error));
+}
+
 </script>
 
 
