@@ -8,6 +8,7 @@ from main.views import *
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('accounts.urls')),
+    path("start/<str:domain_name>/",start_hypervisor,name=start_hypervisor),
 
     path('', login_success, name='index'),
     path('index/', IndexPageView.as_view(), name='dashboard'),

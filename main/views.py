@@ -1,3 +1,4 @@
+from django.http import JsonResponse
 from django.views.generic import TemplateView
 
 from main.KVM import KVMManager
@@ -14,6 +15,28 @@ def login_success(request):
         return redirect('/index')
     else:
         return redirect("accounts/log-in")
+
+def start_hypervisor(request,domain_name):
+    data = {}
+    try:
+        if request.user.is_authenticated:
+            manager= KVMManager()
+            domain= manager.get_domain(domain_name)
+            if domain:
+                domain.start()
+                data['response'] = 1
+                data['message'] = f'{domain_name} started successfully'
+            else:
+
+                data['response'] = 0
+                data['error'] ="Hypervisor not found"
+    except Exception as e:
+        data["response"] = 0
+        data["error"] = str(e)
+        error_message = f"An error occurred while starting {domain_name}: {str(e)}"
+
+    return JsonResponse(data)
+
 
 
 class IndexPageView(AuthenticationMixin, TemplateView):

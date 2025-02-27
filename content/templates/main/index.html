@@ -46,6 +46,10 @@
                 <tr>
                     <td>{{ hypervisor.name }}</td>
                     <td>{{ hypervisor.state }}</td>
+                    <td>
+
+            <button onclick="startHypervisor('{{ hypervisor.name }}')" class="btn btn-success">Start</button>
+                    </td>
                 </tr>
                 {% empty %}
                 <tr>
@@ -130,6 +134,28 @@
         driverObj.drive();
     });
 </script>
+<script>
+    function startHypervisor(domainName) {
+        fetch(`/start-hypervisor/${domainName}/`, {
+            method: "GET",
+            headers: {
+                "X-Requested-With": "XMLHttpRequest",
+                "X-CSRFToken": "{{ csrf_token }}"
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.response === 1) {
+                alert(data.message);
+                location.reload(); // Refresh the page to update status
+            } else {
+                alert("Error: " + data.error);
+            }
+        })
+        .catch(error => console.error("Error:", error));
+    }
+</script>
+
 
 
 {% else %}
