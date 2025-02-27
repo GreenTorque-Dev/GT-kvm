@@ -48,7 +48,7 @@
                     <td>{{ hypervisor.state }}</td>
                     <td>
 
-            <button onclick="('{{ hypervisor.name }}')" class="btn btn-success">Start</button>
+            <button onclick="start_hypervisor('{{ hypervisor.name }}')" class="btn btn-success">Start</button>
                     </td>
                 </tr>
                 {% empty %}
@@ -135,7 +135,7 @@
     });
 </script>
 <script>
-    function startHypervisor(domainName) {
+    function start_hypervisor(domainName) {
         fetch(`/start/${domainName}/`, {
             method: "POST",
             headers: {

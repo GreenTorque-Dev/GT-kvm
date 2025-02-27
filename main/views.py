@@ -17,6 +17,7 @@ def login_success(request):
         return redirect("accounts/log-in")
 
 def start_hypervisor(request,domain_name):
+    print(f"Received request to start: {domain_name}")
     data = {}
     try:
         if request.user.is_authenticated:
