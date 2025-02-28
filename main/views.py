@@ -62,6 +62,7 @@ def start_hypervisor(request, domain_name):
                 print(f"Domain {domain_name} initial state: {initial_state}")
 
                 result = domain.start()  # Check if this returns a success/failure value
+                print(result)
                 new_state = domain.get_state()
                 print(f"Domain {domain_name} state after start attempt: {new_state}")
 
