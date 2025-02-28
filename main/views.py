@@ -26,8 +26,11 @@ def start_hypervisor(request,domain_name):
         if request.user.is_authenticated:
             manager= KVMManager()
             domain= manager.get_domain(domain_name)
+            print(domain)
 
             if domain:
+                initial_state = domain.get_state()
+                print(f"Domain {domain_name} initial state: {initial_state}")  # Debug log
                 domain.start()
                 new_state = domain.get_state()
                 logger.info(f"Domain {domain_name} state after start attempt: {new_state}")
