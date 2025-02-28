@@ -45,12 +45,13 @@
                 {% for hypervisor in hypervisors %}
                 <tr>
                     <td>{{ hypervisor.name }}</td>
-                    <td data-status="{{ hypervisor.name }}">{{ hypervisor.state }}</td>
+                    <td >{{ hypervisor.state }}</td>
                     <td>
 
-           <button data-domain="{{ hypervisor.name }}" data-action="start" onclick="start_hypervisor('{{ hypervisor.name }}')" class="btn btn-success">Start</button>
-<button data-domain="{{ hypervisor.name }}" data-action="stop" onclick="stop_hypervisor('{{ hypervisor.name }}')" class="btn btn-danger">Stop</button>
-<button data-domain="{{ hypervisor.name }}" data-action="restart" onclick="restart_hypervisor('{{ hypervisor.name }}')" class="btn btn-warning">Restart</button>
+            <button data-domain="{{ hypervisor.name }}"  onclick="start_hypervisor('{{ hypervisor.name }}')" class="btn btn-success">Start</button>
+                        <button data-domain="{{ hypervisor.name }}"  onclick="shutdown_hypervisor('{{ hypervisor.name }}')" class="btn btn-danger">Shutdown</button>
+            <button data-domain="{{ hypervisor.name }}"  onclick="restart_hypervisor('{{ hypervisor.name }}')" class="btn btn-warning">Restart</button>
+                        <button data-domain="{{ hypervisor.name }}"  onclick="stop_hypervisor('{{ hypervisor.name }}')" class="btn btn-danger">Force Stop</button>
 
                     </td>
                 </tr>
@@ -137,34 +138,9 @@
         driverObj.drive();
     });
 </script>
-<script>
 
-<!--    function start_hypervisor(domainName) {-->
-<!--    fetch(`/start/${domainName}/`, {-->
-<!--        method: "POST",-->
-<!--        headers: {-->
-<!--            "X-Requested-With": "XMLHttpRequest",-->
-<!--            "X-CSRFToken": "{{ csrf_token }}"-->
-<!--        }-->
-<!--    })-->
-<!--    .then(response => response.json())-->
-<!--    .then(data => {-->
-<!--        if (data.response === 1) {-->
-<!--            alert(data.message);-->
-<!--            let button = document.querySelector(`button[data-domain="${domainName}"][data-action="start"]`);-->
-<!--            if (button) {-->
-<!--                button.textContent = "Started";-->
-<!--                button.classList.remove("btn-success");-->
-<!--                button.classList.add("btn-secondary");-->
-<!--                button.disabled = true; // Disable the button after action-->
-<!--            }-->
-<!--        } else {-->
-<!--            alert("Error: " + data.error);-->
-<!--        }-->
-<!--    })-->
-<!--    .catch(error => console.error("Error:", error));-->
-<!--}-->
-function start_hypervisor(domainName) {
+<script>
+    function start_hypervisor(domainName) {
     fetch(`/start/${domainName}/`, {
         method: "POST",
         headers: {
@@ -176,20 +152,24 @@ function start_hypervisor(domainName) {
     .then(data => {
         if (data.response === 1) {
             alert(data.message);
-
-            // ✅ Update status text in table
-            let statusCell = document.querySelector(`td[data-status="${domainName}"]`);
-            if (statusCell) {
-                statusCell.textContent = data.new_status;  // Change status to "Running"
-            }
-
-            // ✅ Disable start button, change color
-            let startButton = document.querySelector(`button[data-domain="${domainName}"][data-action="start"]`);
-            if (startButton) {
-                startButton.textContent = "Started";
-                startButton.classList.replace("btn-success", "btn-secondary");
-                startButton.disabled = true;
-            }
+        } else {
+            alert("Error: " + data.error);
+        }
+    })
+    .catch(error => console.error("Error:", error));
+}
+function shutdown_hypervisor(domainName) {
+    fetch(`/shutdown/${domainName}/`, {
+        method: "POST",
+        headers: {
+            "X-Requested-With": "XMLHttpRequest",
+            "X-CSRFToken": "{{ csrf_token }}"
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.response === 1) {
+            alert(data.message);
         } else {
             alert("Error: " + data.error);
         }
@@ -210,13 +190,6 @@ function stop_hypervisor(domainName) {
     .then(data => {
         if (data.response === 1) {
             alert(data.message);
-            let button = document.querySelector(`button[data-domain="${domainName}"][data-action="stop"]`);
-            if (button) {
-                button.textContent = "Stopped";
-                button.classList.remove("btn-danger");
-                button.classList.add("btn-secondary");
-                button.disabled = true;
-            }
         } else {
             alert("Error: " + data.error);
         }
@@ -236,13 +209,6 @@ function restart_hypervisor(domainName) {
     .then(data => {
         if (data.response === 1) {
             alert(data.message);
-            let button = document.querySelector(`button[data-domain="${domainName}"][data-action="restart"]`);
-            if (button) {
-                button.textContent = "Restarted";
-                button.classList.remove("btn-warning");
-                button.classList.add("btn-secondary");
-                button.disabled = true;
-            }
         } else {
             alert("Error: " + data.error);
         }
