@@ -19,33 +19,72 @@ def login_success(request):
     else:
         return redirect("accounts/log-in")
 
-def start_hypervisor(request,domain_name):
+# def start_hypervisor(request,domain_name):
+#     print(f"Received request to start: {domain_name}")
+#     data = {}
+#     try:
+#         if request.user.is_authenticated:
+#             manager= KVMManager()
+#             domain= manager.get_domain(domain_name)
+#             print(domain)
+#
+#             if domain:
+#                 initial_state = domain.get_state()
+#                 print(f"Domain {domain_name} initial state: {initial_state}")  # Debug log
+#                 domain.start()
+#                 new_state = domain.get_state()
+#                 logger.info(f"Domain {domain_name} state after start attempt: {new_state}")
+#                 print(f"Domain {domain_name} state after start attempt: {new_state}")
+#                 data['response'] = 1
+#                 data['new_status'] = 'Running'
+#                 data['message'] = f'{domain_name} started successfully'
+#             else:
+#
+#                 data['response'] = 0
+#                 data['error'] ="Hypervisor not found"
+#     except Exception as e:
+#         data["response"] = 0
+#         data["error"] = str(e)
+#         error_message = f"An error occurred while starting {domain_name}: {str(e)}"
+#
+#     return JsonResponse(data)
+def start_hypervisor(request, domain_name):
     print(f"Received request to start: {domain_name}")
     data = {}
+
     try:
         if request.user.is_authenticated:
-            manager= KVMManager()
-            domain= manager.get_domain(domain_name)
-            print(domain)
+            manager = KVMManager()
+            domain = manager.get_domain(domain_name)
 
             if domain:
                 initial_state = domain.get_state()
-                print(f"Domain {domain_name} initial state: {initial_state}")  # Debug log
-                domain.start()
-                new_state = domain.get_state()
-                logger.info(f"Domain {domain_name} state after start attempt: {new_state}")
-                print(f"Domain {domain_name} state after start attempt: {new_state}")
-                data['response'] = 1
-                data['new_status'] = 'Running'
-                data['message'] = f'{domain_name} started successfully'
-            else:
+                print(f"Domain {domain_name} initial state: {initial_state}")
 
+                result = domain.start()  # Check if this returns a success/failure value
+                new_state = domain.get_state()
+                print(f"Domain {domain_name} state after start attempt: {new_state}")
+
+                if new_state.lower() == "running":  # Ensure the domain actually started
+                    data['response'] = 1
+                    data['new_status'] = 'Running'
+                    data['message'] = f'{domain_name} started successfully'
+                else:
+                    data['response'] = 0
+                    data['error'] = f"Failed to start {domain_name}, current state: {new_state}"
+                    logger.error(f"Failed to start {domain_name}, current state: {new_state}")
+
+            else:
                 data['response'] = 0
-                data['error'] ="Hypervisor not found"
+                data['error'] = "Hypervisor not found"
+                logger.error("Hypervisor not found")
+
     except Exception as e:
-        data["response"] = 0
-        data["error"] = str(e)
         error_message = f"An error occurred while starting {domain_name}: {str(e)}"
+        data["response"] = 0
+        data["error"] = error_message
+        logger.error(error_message)
+        print(error_message)
 
     return JsonResponse(data)
 
