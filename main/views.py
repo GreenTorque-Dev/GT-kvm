@@ -5,6 +5,9 @@ from main.KVM import KVMManager
 from main.mixins import AuthenticationMixin
 
 from django.shortcuts import render, redirect
+import logging
+
+logger = logging.getLogger(__name__)
 
 def login_success(request):
     """
@@ -26,6 +29,9 @@ def start_hypervisor(request,domain_name):
 
             if domain:
                 domain.start()
+                new_state = domain.get_state()
+                logger.info(f"Domain {domain_name} state after start attempt: {new_state}")
+                print(f"Domain {domain_name} state after start attempt: {new_state}")
                 data['response'] = 1
                 data['new_status'] = 'Running'
                 data['message'] = f'{domain_name} started successfully'
