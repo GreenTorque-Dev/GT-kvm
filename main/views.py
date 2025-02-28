@@ -124,7 +124,7 @@ def stop_hypervisor(request, domain_name):
                 initial_state = domain.get_state()
                 print(f"Domain {domain_name} initial state: {initial_state}")
 
-                result = domain.stop()  # Check if this returns a success/failure value
+                result = domain.force_stop()  # Check if this returns a success/failure value
                 print(f"Stop result: {result}")
 
                 new_state = domain.get_state()
