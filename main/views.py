@@ -162,7 +162,7 @@ def restart_hypervisor(request, domain_name):
             manager = KVMManager()
             domain = manager.get_domain(domain_name)
             if domain:
-                domain.stop()  # First, stop the domain
+                domain.force_stop()  # First, stop the domain
                 domain.start()  # Then, start it again
                 data['response'] = 1
                 data['message'] = f'{domain_name} restarted successfully'
